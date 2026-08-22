@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
+import ContactForm from "@/components/ContactForm";
 import PageHeader from "@/components/PageHeader";
 
 export const metadata: Metadata = { title: "Contact" };
-
-const FIELD =
-  "w-full rounded-xl border border-line bg-white px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-faint focus:border-brand focus:ring-2 focus:ring-brand-light";
 
 export default function ContactPage() {
   return (
@@ -37,40 +35,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <form className="card space-y-4 p-7 md:p-8">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="block">
-                <span className="mb-2 block text-[13px] font-semibold text-ink">Name</span>
-                <input className={FIELD} name="name" placeholder="Your name" required />
-              </label>
-              <label className="block">
-                <span className="mb-2 block text-[13px] font-semibold text-ink">Email</span>
-                <input className={FIELD} name="email" type="email" placeholder="you@email.com" required />
-              </label>
-            </div>
-            <label className="block">
-              <span className="mb-2 block text-[13px] font-semibold text-ink">Topic</span>
-              <select className={FIELD} name="topic" defaultValue="support">
-                <option value="support">Support</option>
-                <option value="billing">Billing or refund</option>
-                <option value="institutions">Universities &amp; institutions</option>
-                <option value="other">Something else</option>
-              </select>
-            </label>
-            <label className="block">
-              <span className="mb-2 block text-[13px] font-semibold text-ink">Message</span>
-              <textarea className={FIELD} name="message" rows={5} placeholder="How can we help?" required />
-            </label>
-            <button
-              type="submit"
-              className="w-full rounded-full bg-brand-deep px-5 py-3.5 text-[15px] font-semibold text-white transition-colors hover:bg-brand-dark"
-            >
-              Send message
-            </button>
-            <p className="text-center text-[12.5px] text-faint">
-              Demo form &mdash; not wired to a backend yet.
-            </p>
-          </form>
+          <ContactForm />
         </div>
       </section>
     </>

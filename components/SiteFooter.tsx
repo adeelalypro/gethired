@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FOOTER_NAV, SITE } from "@/lib/site";
 import { Logo, Arrow } from "./Icons";
+import NewsletterForm from "./NewsletterForm";
 
 export default function SiteFooter() {
   return (
@@ -11,25 +12,7 @@ export default function SiteFooter() {
           <p className="mt-4 text-[14.5px] leading-relaxed text-muted">
             {SITE.short}
           </p>
-          <form
-            className="mt-6 flex items-center gap-2 rounded-full border border-line bg-surface p-1.5 pl-4"
-            action="/signup"
-          >
-            <input
-              type="email"
-              name="email"
-              required
-              placeholder="Enter your email"
-              aria-label="Email address"
-              className="min-w-0 flex-1 bg-transparent text-[14px] text-ink outline-none placeholder:text-faint"
-            />
-            <button
-              type="submit"
-              className="shrink-0 rounded-full bg-brand-deep px-4 py-2 text-[13.5px] font-semibold text-white transition-colors hover:bg-brand-dark"
-            >
-              Subscribe
-            </button>
-          </form>
+          <NewsletterForm />
           <p className="mt-3 text-[12.5px] text-faint">
             By subscribing you agree to our{" "}
             <Link href="/privacy" className="text-brand-dark underline underline-offset-2">
