@@ -1,0 +1,301 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-ink: #0a1a2b;
+  --color-ink-2: #24384c;
+  --color-muted: #5c7086;
+  --color-faint: #8fa2b4;
+  --color-line: #e3ebf2;
+  --color-surface: #f5f9f8;
+  --color-surface-2: #eef5f2;
+
+  --color-brand: #0f9d63;
+  --color-brand-dark: #0a7a4c;
+  --color-brand-deep: #064e33;
+  --color-brand-light: #e7f7f0;
+  --color-brand-mid: #b9e8d3;
+
+  --color-amber: #f0a11b;
+  --color-amber-light: #fef4e2;
+
+  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 20px;
+}
+
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-ink-2);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04";
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  letter-spacing: -0.028em;
+  font-weight: 800;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--color-brand-mid);
+  color: var(--color-brand-deep);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---- reusable primitives ---- */
+
+.shell {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+@media (min-width: 768px) {
+  .shell {
+    padding-inline: 32px;
+  }
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-brand-dark);
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+}
+
+.hairline {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-line) 12%,
+    var(--color-line) 88%,
+    transparent
+  );
+  height: 1px;
+}
+
+/* Subtle dot grid used behind the hero and the CTA band */
+.dotfield {
+  background-image: radial-gradient(var(--color-line) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.dotfield-dark {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* ---- motion ----
+   Keyframes and timings mirror hataf.ai's motion system so the two sites feel
+   the same in the hand. Like theirs, nothing here is scroll-triggered: motion
+   fires on load or on interaction only. */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.6s var(--ease-out) both;
+}
+
+/* Hero sub-elements drop in from above. */
+@keyframes slideDownHero {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-down-hero {
+  animation: slideDownHero 0.8s ease-out both;
+}
+
+/* Headline words sweep in from the left, one after another. */
+@keyframes heroCharReveal {
+  from {
+    opacity: 0;
+    transform: translateX(-0.6em) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.hero-word {
+  display: inline-block;
+  opacity: 0;
+  animation: heroCharReveal 0.5s ease-out forwards;
+}
+
+@keyframes heroCursorBlink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.hero-cursor {
+  display: inline-block;
+  width: 3px;
+  margin-left: 4px;
+  border-radius: 2px;
+  background: var(--color-brand);
+  animation: heroCursorBlink 1s steps(1) infinite;
+}
+
+/* The journey rail draws itself once on mount. */
+@keyframes pipelineFlow {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.pipeline-path {
+  stroke-dasharray: 5 5;
+  animation: pipelineFlow 5s linear forwards;
+}
+
+/* The active journey node breathes. */
+@keyframes pipelineStepPulse {
+  0%,
+  70%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+  }
+  12% {
+    transform: scale(1.08);
+    box-shadow: 0 16px 35px rgba(15, 157, 99, 0.22);
+  }
+}
+
+.pipeline-node-active {
+  animation: pipelineStepPulse 1.6s ease-in-out infinite;
+}
+
+/* Feature tab underline fills across the auto-advance interval. */
+@keyframes tabProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.tab-progress {
+  transform-origin: left;
+  animation: tabProgress 9s linear forwards;
+}
+
+/* Checkmarks draw themselves in. */
+@keyframes drawCheck {
+  from {
+    stroke-dashoffset: 22;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.check-draw {
+  stroke-dasharray: 22;
+  stroke-dashoffset: 22;
+  animation: drawCheck 0.8s ease-out 0.4s forwards;
+}
+
+/* Light sweep across the featured plan badge. */
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  animation: shimmer 2.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
