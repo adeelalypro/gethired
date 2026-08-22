@@ -165,7 +165,7 @@ begin
     raise exception 'A valid promo code is required.' using errcode = 'P0001';
   end if;
 
-  v_hash := encode(digest(v_code, 'sha256'), 'hex');
+  v_hash := encode(extensions.digest(v_code, 'sha256'), 'hex');
 
   select id, label
   into v_promo_id, v_promo_label
@@ -309,7 +309,7 @@ begin
   set claimed_by = auth.uid(), claimed_at = now()
   where id = 1
     and claimed_by is null
-    and code_hash = encode(digest(upper(trim(p_code)), 'sha256'), 'hex')
+    and code_hash = encode(extensions.digest(upper(trim(p_code)), 'sha256'), 'hex')
   returning id into v_claimed;
 
   if v_claimed is null then
@@ -359,7 +359,7 @@ begin
   insert into public.promo_codes (label, code_hash, max_uses, allowed_services, expires_at, created_by)
   values (
     trim(p_label),
-    encode(digest(v_code, 'sha256'), 'hex'),
+    encode(extensions.digest(v_code, 'sha256'), 'hex'),
     p_max_uses,
     coalesce(p_allowed_services, '{}'),
     p_expires_at,
@@ -493,3 +493,4 @@ values (1, 'ccb31611d78bccebe70dcc56fe0ada02a452ada1b5ced06a08025a704182ddd6')
 on conflict (id) do nothing;
 
 commit;
+
