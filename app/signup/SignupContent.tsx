@@ -145,7 +145,7 @@ export function SignupView({ planId }: { planId: PlanId }) {
             </button>
 
             <ul className="space-y-2 pt-1">
-              {["No credit card required", "Email-verified account", "Your selected service is saved"].map((text) => (
+              {["No credit card required", "Instant account access", "Your selected service is saved"].map((text) => (
                 <li key={text} className="flex items-center gap-2 text-[13px] text-muted">
                   <span className="text-brand"><Check className="h-3.5 w-3.5" /></span>
                   {text}

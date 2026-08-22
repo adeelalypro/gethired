@@ -183,7 +183,7 @@ export default function DashboardClient() {
               <div className="mt-5 h-2 overflow-hidden rounded-full bg-surface-2"><div className="h-full rounded-full bg-brand transition-all" style={{ width: serviceStarted ? "100%" : "66.67%" }} /></div>
               <ol className="mt-6 space-y-3 text-[14px]">
                 <li className="flex items-center gap-3"><Check className="h-4 w-4 text-brand" /><span>Account created</span></li>
-                <li className="flex items-center gap-3"><Check className="h-4 w-4 text-brand" /><span>Email verified</span></li>
+                <li className="flex items-center gap-3"><Check className="h-4 w-4 text-brand" /><span>Promo access activated</span></li>
                 <li className="flex items-center gap-3">
                   <span className={`flex h-4 w-4 items-center justify-center rounded-full border ${serviceStarted ? "border-brand bg-brand text-white" : "border-brand"}`}>{serviceStarted && <Check className="h-3 w-3" />}</span>
                   <span>{serviceStarted ? `${plan.name} onboarding started` : `Start ${plan.name} onboarding`}</span>
