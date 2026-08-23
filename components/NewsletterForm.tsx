@@ -22,7 +22,7 @@ export default function NewsletterForm() {
       setMessage(friendlyAccountError(error.message));
     } else {
       form.reset();
-      setMessage("You are subscribed.");
+      setMessage("You’re on the pilot update list.");
     }
     setSubmitting(false);
   }
@@ -35,7 +35,7 @@ export default function NewsletterForm() {
           name="email"
           required
           maxLength={254}
-          placeholder="Enter your email"
+          placeholder="Email for pilot updates"
           aria-label="Email address"
           className="min-w-0 flex-1 bg-transparent text-[14px] text-ink outline-none placeholder:text-faint"
         />
@@ -44,10 +44,11 @@ export default function NewsletterForm() {
           disabled={submitting}
           className="shrink-0 rounded-full bg-brand-deep px-4 py-2 text-[13.5px] font-semibold text-white transition-colors hover:bg-brand-dark disabled:cursor-wait disabled:opacity-60"
         >
-          {submitting ? "Saving…" : "Subscribe"}
+          {submitting ? "Saving…" : "Get updates"}
         </button>
       </form>
       {message && <p role="status" className={`mt-2 text-[12.5px] ${isError ? "text-red-700" : "text-brand-dark"}`}>{message}</p>}
     </>
   );
 }
+

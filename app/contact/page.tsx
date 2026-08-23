@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import PageHeader from "@/components/PageHeader";
+import { Suspense } from "react";
 
-export const metadata: Metadata = { title: "Contact" };
+export const metadata: Metadata = { title: "Contact", alternates: { canonical: "/contact/" }, description: "Contact GetHired for pilot support, product feedback, privacy questions, or institutional pilots." };
 
 export default function ContactPage() {
   return (
@@ -10,7 +11,7 @@ export default function ContactPage() {
       <PageHeader
         eyebrow="Contact"
         title="Talk to us."
-        lede="Support questions, billing, or seat-based licensing for a university or a team."
+        lede="Account help, pilot feedback, or a conversation about an institutional pilot."
       />
 
       <section className="border-b border-line py-20 md:py-24">
@@ -19,25 +20,22 @@ export default function ContactPage() {
             <div>
               <h2 className="text-[18px]">Universities &amp; institutions</h2>
               <p className="mt-2.5 text-[15px] leading-relaxed text-muted">
-                Seat-based licensing with cohort dashboards, placement tracking,
-                and Experience Lab tracks aligned to your curriculum. Pricing
-                depends on cohort size, so tell us roughly how many students and
-                we will put a number together.
+                We are exploring pilots with universities, colleges, workforce programmes, and teams. Tell us about your audience, goals, and approximate cohort size; we will reply using the email you provide.
               </p>
             </div>
             <div>
-              <h2 className="text-[18px]">Support &amp; billing</h2>
+              <h2 className="text-[18px]">Account &amp; pilot support</h2>
               <p className="mt-2.5 text-[15px] leading-relaxed text-muted">
-                Plan changes are self-serve from your dashboard and upgrades are
-                prorated. For refunds inside the first seven days, use the form
-                and reference your account email.
+                The current pilot does not collect payment details. Use this form for sign-in help, promo-code questions, privacy requests, product feedback, or anything that is unclear.
               </p>
             </div>
+            <div className="rounded-2xl border border-brand-mid bg-brand-light p-5"><p className="text-[13.5px] font-semibold text-brand-deep">Your message is saved to the private admin inbox so the GetHired team can follow up.</p></div>
           </div>
 
-          <ContactForm />
+          <Suspense fallback={<div className="card min-h-[460px] p-8 text-[14px] text-muted">Loading contact form…</div>}><ContactForm /></Suspense>
         </div>
       </section>
     </>
   );
 }
+

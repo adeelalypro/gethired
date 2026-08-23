@@ -8,16 +8,13 @@ import { getSupabaseBrowserClient } from "@/lib/supabase";
 
 export default function LoginForm() {
   const [submitting, setSubmitting] = useState(false);
-  const [sendingReset, setSendingReset] = useState(false);
   const [error, setError] = useState("");
-  const [notice, setNotice] = useState("");
   const [email, setEmail] = useState("");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitting(true);
     setError("");
-    setNotice("");
 
     const form = new FormData(event.currentTarget);
     const password = String(form.get("password") || "");
@@ -36,30 +33,6 @@ export default function LoginForm() {
       setError(friendlyAccountError(loginError instanceof Error ? loginError.message : ""));
     } finally {
       setSubmitting(false);
-    }
-  }
-
-  async function handlePasswordReset() {
-    setError("");
-    setNotice("");
-
-    if (!email.trim()) {
-      setError("Enter your email above, then choose reset password.");
-      return;
-    }
-
-    setSendingReset(true);
-    try {
-      const supabase = getSupabaseBrowserClient();
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
-        redirectTo: `${window.location.origin}/reset-password/`,
-      });
-      if (resetError) throw resetError;
-      setNotice("If an account exists for that email, a password-reset link is on its way.");
-    } catch (resetError) {
-      setError(friendlyAccountError(resetError instanceof Error ? resetError.message : ""));
-    } finally {
-      setSendingReset(false);
     }
   }
 
@@ -84,19 +57,11 @@ export default function LoginForm() {
       </label>
 
       {error && <FormNotice tone="error">{error}</FormNotice>}
-      {notice && <FormNotice tone="success">{notice}</FormNotice>}
 
       <button type="submit" disabled={submitting} className={ACCOUNT_BUTTON}>
         {submitting ? "Signing in…" : "Log in"}
       </button>
-      <button
-        type="button"
-        onClick={handlePasswordReset}
-        disabled={sendingReset}
-        className="w-full text-center text-[13.5px] font-semibold text-brand-dark underline underline-offset-3 disabled:opacity-60"
-      >
-        {sendingReset ? "Sending reset link…" : "Forgot your password?"}
-      </button>
+      <p className="text-center text-[13px] text-muted">Need help accessing your account? <Link href="/contact" className="font-semibold text-brand-dark underline underline-offset-2">Contact support</Link>.</p>
       <p className="text-center text-[13.5px] text-muted">
         New here?{" "}
         <Link href="/signup" className="font-semibold text-brand-dark underline underline-offset-2">Create an account</Link>
@@ -104,3 +69,4 @@ export default function LoginForm() {
     </form>
   );
 }
+

@@ -12,20 +12,19 @@ export default function Personas() {
       <div className="shell">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <span className="eyebrow">Who it&rsquo;s for</span>
+            <span className="eyebrow">Choose your pilot track</span>
             <h2 className="mt-4 text-[34px] leading-[1.08] sm:text-[42px]">
-              Where are you right now?
+              Start with the problem that is real right now.
             </h2>
             <p className="mt-5 text-[17px] leading-relaxed text-muted">
-              The hard part of getting hired is a different problem depending on
-              where you&rsquo;re standing. Find the one that sounds like you.
+              Your choice tells us where early demand is strongest. It does not start a subscription, and you will not be asked for a card.
             </p>
           </div>
           <Link
             href="/pricing"
             className="inline-flex shrink-0 items-center gap-2 rounded-full border border-line px-5 py-3 text-[14.5px] font-semibold text-ink transition-all duration-200 hover:gap-3 hover:border-brand-mid hover:bg-brand-light"
           >
-            See all plans <Arrow className="h-4 w-4" />
+            Compare the tracks <Arrow className="h-4 w-4" />
           </Link>
         </div>
 
@@ -33,7 +32,7 @@ export default function Personas() {
           {PERSONA_PLANS.map((p) => (
             <Link
               key={p.id}
-              href={`/pricing#plan-${p.id}`}
+              href={`/signup?plan=${p.id}`}
               className={`group card flex flex-col p-7 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_20px_44px_-26px_rgba(10,26,43,0.32)] ${
                 p.featured ? "border-brand-mid bg-brand-light/40" : ""
               }`}
@@ -49,7 +48,7 @@ export default function Personas() {
 
               <div className="mt-6 border-t border-line pt-4">
                 <p className="text-[11px] font-bold tracking-[0.1em] uppercase text-faint">
-                  We start with
+                  Research priority
                 </p>
                 <p className="mt-1.5 text-[14.5px] font-semibold text-brand-deep">
                   {p.builtFor}
@@ -57,7 +56,7 @@ export default function Personas() {
               </div>
 
               <span className="mt-5 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-brand-dark transition-all duration-200 group-hover:gap-2.5">
-                See the {p.name} plan <Arrow className="h-3.5 w-3.5" />
+                Choose {p.name} <Arrow className="h-3.5 w-3.5" />
               </span>
             </Link>
           ))}
@@ -66,3 +65,4 @@ export default function Personas() {
     </section>
   );
 }
+

@@ -4,8 +4,12 @@ import { type FormEvent, useState } from "react";
 import FormNotice from "@/components/FormNotice";
 import { ACCOUNT_BUTTON, ACCOUNT_FIELD, friendlyAccountError } from "@/lib/account";
 import { getSupabaseBrowserClient } from "@/lib/supabase";
+import { useSearchParams } from "next/navigation";
 
 export default function ContactForm() {
+  const searchParams = useSearchParams();
+  const requestedTopic = searchParams.get("topic");
+  const defaultTopic = ["support", "institutions", "other"].includes(requestedTopic || "") ? requestedTopic! : "support";
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [sent, setSent] = useState(false);
@@ -49,9 +53,8 @@ export default function ContactForm() {
       </div>
       <label className="block">
         <span className="mb-2 block text-[13px] font-semibold text-ink">Topic</span>
-        <select className={ACCOUNT_FIELD} name="topic" defaultValue="support">
+        <select className={ACCOUNT_FIELD} name="topic" defaultValue={defaultTopic}>
           <option value="support">Support</option>
-          <option value="billing">Billing or refund</option>
           <option value="institutions">Universities &amp; institutions</option>
           <option value="other">Something else</option>
         </select>
@@ -69,7 +72,8 @@ export default function ContactForm() {
       <button type="submit" className={ACCOUNT_BUTTON} disabled={submitting}>
         {submitting ? "Sending…" : "Send message"}
       </button>
-      <p className="text-center text-[12.5px] text-faint">Messages are securely saved for the GetHired team.</p>
+      <p className="text-center text-[12.5px] text-faint">We will reply using the email address you provide.</p>
     </form>
   );
 }
+

@@ -29,10 +29,12 @@ export default function DashboardClient() {
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [redemption, setRedemption] = useState<Redemption | null>(null);
-  const [serviceStarted, setServiceStarted] = useState(false);
+  const [interestConfirmed, setInterestConfirmed] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [starting, setStarting] = useState(false);
+  const [changingPassword, setChangingPassword] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
 
@@ -52,7 +54,7 @@ export default function DashboardClient() {
       const [profileResult, redemptionResult, activityResult] = await Promise.all([
         supabase.from("profiles").select("id,email,full_name,selected_service,role,access_status,last_active_at,created_at").eq("id", session.user.id).single(),
         supabase.from("promo_redemptions").select("promo_label,redeemed_at").eq("user_id", session.user.id).maybeSingle(),
-        supabase.from("activity_events").select("id").eq("user_id", session.user.id).eq("event_type", "service_started").limit(1),
+        supabase.from("activity_events").select("id").eq("user_id", session.user.id).in("event_type", ["service_started", "interest_confirmed"]).limit(1),
       ]);
 
       if (!active) return;
@@ -63,7 +65,7 @@ export default function DashboardClient() {
         if (!isPlanId(nextProfile.selected_service)) nextProfile.selected_service = "free";
         setProfile(nextProfile);
         setRedemption(redemptionResult.data as Redemption | null);
-        setServiceStarted(Boolean(activityResult.data?.length));
+        setInterestConfirmed(Boolean(activityResult.data?.length));
         await supabase.rpc("track_activity", { p_event_type: "dashboard_view", p_metadata: { service: nextProfile.selected_service } });
       }
       setLoading(false);
@@ -100,20 +102,53 @@ export default function DashboardClient() {
     }
   }
 
-  async function handleStartService() {
+  async function handleConfirmInterest() {
     if (!profile) return;
     setStarting(true);
     setError("");
     const { error: activityError } = await getSupabaseBrowserClient().rpc("track_activity", {
-      p_event_type: "service_started",
+      p_event_type: "interest_confirmed",
       p_metadata: { service: profile.selected_service },
     });
     if (activityError) setError(friendlyAccountError(activityError.message));
     else {
-      setServiceStarted(true);
-      setNotice(`${plan?.name || "Your"} onboarding has started. Your place is recorded.`);
+      setInterestConfirmed(true);
+      setNotice(`${plan?.name || "Your"} pilot interest is confirmed.`);
     }
     setStarting(false);
+  }
+
+  async function handlePasswordUpdate(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setChangingPassword(true);
+    setError("");
+    setNotice("");
+    const form = event.currentTarget;
+    const values = new FormData(form);
+    const password = String(values.get("password") || "");
+    const confirmation = String(values.get("password_confirmation") || "");
+    if (password.length < 8 || password !== confirmation) {
+      setError(password.length < 8 ? "Use at least 8 characters for your new password." : "The password confirmation does not match.");
+      setChangingPassword(false);
+      return;
+    }
+    const { error: passwordError } = await getSupabaseBrowserClient().auth.updateUser({ password });
+    if (passwordError) setError(friendlyAccountError(passwordError.message));
+    else { form.reset(); setNotice("Your password has been changed."); }
+    setChangingPassword(false);
+  }
+
+  async function handleDeleteAccount(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const confirmation = String(new FormData(form).get("delete_confirmation") || "").trim().toUpperCase();
+    if (confirmation !== "DELETE") { setError("Type DELETE to confirm account deletion."); return; }
+    setDeleting(true);
+    setError("");
+    const { error: deleteError } = await getSupabaseBrowserClient().rpc("delete_my_account", { p_confirmation: confirmation });
+    if (deleteError) { setError(friendlyAccountError(deleteError.message)); setDeleting(false); return; }
+    await getSupabaseBrowserClient().auth.signOut();
+    router.push("/?account=deleted");
   }
 
   async function handleSignOut() {
@@ -134,9 +169,9 @@ export default function DashboardClient() {
       <div className="shell max-w-6xl">
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <span className="eyebrow">Your workspace</span>
+            <span className="eyebrow">Your early-access dashboard</span>
             <h1 className="mt-3 text-[32px] leading-tight md:text-[40px]">Welcome, {profile.full_name.split(" ")[0]}.</h1>
-            <p className="mt-3 text-[15px] text-muted">Your promotional access is active and your service choice has been recorded.</p>
+            <p className="mt-3 text-[15px] text-muted">Your pilot access is active and your selected research track has been recorded.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             {profile.role === "admin" && <Link href="/admin" className="rounded-full border border-brand-mid bg-brand-light px-4 py-2.5 text-[13.5px] font-semibold text-brand-deep">Analytics</Link>}
@@ -152,7 +187,7 @@ export default function DashboardClient() {
                   <div className="flex items-center gap-4">
                     <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-light text-brand-deep"><Glyph name={plan.id} className="h-6 w-6" /></span>
                     <div>
-                      <p className="text-[11px] font-bold tracking-[0.12em] uppercase text-faint">Selected service</p>
+                      <p className="text-[11px] font-bold tracking-[0.12em] uppercase text-faint">Selected pilot track</p>
                       <h2 className="mt-1 text-[22px]">{plan.name}</h2>
                     </div>
                   </div>
@@ -166,7 +201,7 @@ export default function DashboardClient() {
                 {MODULES.map((module) => (
                   <div key={module.id} className="bg-white p-5">
                     <p className="text-[12px] font-semibold text-muted">{module.name}</p>
-                    <p className="mt-1 text-[14px] font-semibold text-ink">{plan.meters[module.id] || "Not included"}</p>
+                    <p className="mt-1 text-[14px] font-semibold text-ink">{plan.meters[module.id] || "Later roadmap"}</p>
                   </div>
                 ))}
               </div>
@@ -175,26 +210,26 @@ export default function DashboardClient() {
             <div className="card p-6 md:p-8">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="eyebrow">Activation</p>
-                  <h2 className="mt-2 text-[22px]">Ready to begin?</h2>
+                  <p className="eyebrow">Pilot status</p>
+                  <h2 className="mt-2 text-[22px]">Confirm your interest.</h2>
                 </div>
-                <span className="text-[13px] font-semibold text-brand-dark">{serviceStarted ? "3 of 3" : "2 of 3"}</span>
+                <span className="text-[13px] font-semibold text-brand-dark">{interestConfirmed ? "3 of 3" : "2 of 3"}</span>
               </div>
-              <div className="mt-5 h-2 overflow-hidden rounded-full bg-surface-2"><div className="h-full rounded-full bg-brand transition-all" style={{ width: serviceStarted ? "100%" : "66.67%" }} /></div>
+              <div className="mt-5 h-2 overflow-hidden rounded-full bg-surface-2"><div className="h-full rounded-full bg-brand transition-all" style={{ width: interestConfirmed ? "100%" : "66.67%" }} /></div>
               <ol className="mt-6 space-y-3 text-[14px]">
                 <li className="flex items-center gap-3"><Check className="h-4 w-4 text-brand" /><span>Account created</span></li>
                 <li className="flex items-center gap-3"><Check className="h-4 w-4 text-brand" /><span>Promo access activated</span></li>
                 <li className="flex items-center gap-3">
-                  <span className={`flex h-4 w-4 items-center justify-center rounded-full border ${serviceStarted ? "border-brand bg-brand text-white" : "border-brand"}`}>{serviceStarted && <Check className="h-3 w-3" />}</span>
-                  <span>{serviceStarted ? `${plan.name} onboarding started` : `Start ${plan.name} onboarding`}</span>
+                  <span className={`flex h-4 w-4 items-center justify-center rounded-full border ${interestConfirmed ? "border-brand bg-brand text-white" : "border-brand"}`}>{interestConfirmed && <Check className="h-3 w-3" />}</span>
+                  <span>{interestConfirmed ? `${plan.name} interest confirmed` : `Confirm interest in ${plan.name}`}</span>
                 </li>
               </ol>
-              {!serviceStarted && (
-                <button onClick={handleStartService} disabled={starting} className="mt-6 rounded-full bg-brand-deep px-5 py-3 text-[14px] font-semibold text-white hover:bg-brand-dark disabled:opacity-60">
-                  {starting ? "Starting…" : "I'm ready to start"}
+              {!interestConfirmed && (
+                <button onClick={handleConfirmInterest} disabled={starting} className="mt-6 rounded-full bg-brand-deep px-5 py-3 text-[14px] font-semibold text-white hover:bg-brand-dark disabled:opacity-60">
+                  {starting ? "Saving…" : "Confirm my interest"}
                 </button>
               )}
-              {serviceStarted && <p className="mt-5 rounded-xl bg-brand-light px-4 py-3 text-[13.5px] text-brand-deep">Your interest is recorded. The GetHired team can now see that you activated {plan.name}.</p>}
+              {interestConfirmed && <p className="mt-5 rounded-xl bg-brand-light px-4 py-3 text-[13.5px] text-brand-deep">Your interest is recorded. This helps the GetHired team measure demand for {plan.name}; it does not mean every roadmap feature is live yet.</p>}
             </div>
           </div>
 
@@ -216,11 +251,19 @@ export default function DashboardClient() {
               </button>
             </form>
 
+            <form onSubmit={handlePasswordUpdate} className="card p-6">
+              <p className="eyebrow">Security</p>
+              <h2 className="mt-2 text-[20px]">Change password</h2>
+              <label className="mt-5 block"><span className="mb-2 block text-[12.5px] font-semibold text-ink">New password</span><input className={ACCOUNT_FIELD} name="password" type="password" autoComplete="new-password" minLength={8} required /></label>
+              <label className="mt-4 block"><span className="mb-2 block text-[12.5px] font-semibold text-ink">Confirm new password</span><input className={ACCOUNT_FIELD} name="password_confirmation" type="password" autoComplete="new-password" minLength={8} required /></label>
+              <button type="submit" disabled={changingPassword} className="mt-5 w-full rounded-full border border-brand-mid bg-brand-light px-4 py-2.5 text-[13.5px] font-semibold text-brand-deep hover:bg-brand-mid disabled:opacity-60">{changingPassword ? "Changing…" : "Change password"}</button>
+            </form>
+
             <div className="card p-6">
               <p className="eyebrow">Access record</p>
               <dl className="mt-4 space-y-4 text-[13.5px]">
                 <div className="flex items-start justify-between gap-4"><dt className="text-muted">Campaign</dt><dd className="text-right font-semibold text-ink">{redemption?.promo_label || "Promotional access"}</dd></div>
-                <div className="flex items-start justify-between gap-4"><dt className="text-muted">Service</dt><dd className="text-right font-semibold text-ink">{plan.name}</dd></div>
+                <div className="flex items-start justify-between gap-4"><dt className="text-muted">Track</dt><dd className="text-right font-semibold text-ink">{plan.name}</dd></div>
                 <div className="flex items-start justify-between gap-4"><dt className="text-muted">Joined</dt><dd className="text-right font-semibold text-ink">{new Date(profile.created_at).toLocaleDateString()}</dd></div>
                 <div className="flex items-start justify-between gap-4"><dt className="text-muted">Payment method</dt><dd className="text-right font-semibold text-brand-dark">Not required</dd></div>
               </dl>
@@ -229,12 +272,21 @@ export default function DashboardClient() {
             <div className="rounded-card bg-brand-deep p-6 text-white">
               <p className="text-[11px] font-bold tracking-[0.13em] uppercase text-brand-mid">Need help?</p>
               <h2 className="mt-2 text-[20px] text-white">Talk to the team.</h2>
-              <p className="mt-2 text-[13.5px] leading-relaxed text-white/70">Questions about your service or promo access are saved directly for follow-up.</p>
+              <p className="mt-2 text-[13.5px] leading-relaxed text-white/70">Questions about your account, pilot track, or privacy are saved directly for follow-up.</p>
               <Link href="/contact" className="mt-5 inline-flex rounded-full bg-white px-4 py-2.5 text-[13px] font-semibold text-brand-deep">Contact support</Link>
             </div>
+
+            <form onSubmit={handleDeleteAccount} className="rounded-card border border-red-200 bg-white p-6">
+              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-red-700">Danger zone</p>
+              <h2 className="mt-2 text-[20px]">Delete account</h2>
+              <p className="mt-2 text-[13px] leading-relaxed text-muted">This permanently removes your account, profile, promo redemption, and activity history. Type DELETE to confirm.</p>
+              <input className={`${ACCOUNT_FIELD} mt-4`} name="delete_confirmation" autoComplete="off" placeholder="Type DELETE" required />
+              <button type="submit" disabled={deleting} className="mt-4 w-full rounded-full border border-red-300 px-4 py-2.5 text-[13.5px] font-semibold text-red-700 hover:bg-red-50 disabled:opacity-60">{deleting ? "Deleting…" : "Delete my account"}</button>
+            </form>
           </aside>
         </div>
       </div>
     </section>
   );
 }
+

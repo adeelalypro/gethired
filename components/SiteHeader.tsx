@@ -37,8 +37,8 @@ export default function SiteHeader() {
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-line bg-white/85 backdrop-blur-xl"
-          : "border-b border-transparent bg-white"
+          ? "border-b border-line bg-[#fafcfb]/90 backdrop-blur-xl"
+          : "border-b border-transparent bg-[#fafcfb]"
       }`}
     >
       <div className="shell flex h-[72px] items-center justify-between gap-6">
@@ -67,7 +67,7 @@ export default function SiteHeader() {
           ) : (
             <>
               <Link href="/login" className="rounded-full border border-line px-4 py-2 text-[14px] font-semibold text-ink transition-colors hover:border-brand-mid hover:bg-brand-light">Sign In</Link>
-              <Link href="/signup" className="rounded-full bg-brand-deep px-4.5 py-2 text-[14px] font-semibold text-white transition-colors hover:bg-brand-dark">Get Started</Link>
+              <Link href="/signup" className="rounded-full bg-brand-deep px-4.5 py-2 text-[14px] font-semibold text-white transition-colors hover:bg-brand-dark">Join Early Access</Link>
             </>
           )}
         </div>
@@ -121,7 +121,7 @@ export default function SiteHeader() {
               ) : (
                 <>
                   <Link href="/login" onClick={() => setOpen(false)} className="flex-1 rounded-full border border-line px-4 py-2.5 text-center text-[14px] font-semibold text-ink">Sign In</Link>
-                  <Link href="/signup" onClick={() => setOpen(false)} className="flex-1 rounded-full bg-brand-deep px-4 py-2.5 text-center text-[14px] font-semibold text-white">Get Started</Link>
+                  <Link href="/signup" onClick={() => setOpen(false)} className="flex-1 rounded-full bg-brand-deep px-4 py-2.5 text-center text-[14px] font-semibold text-white">Join Early Access</Link>
                 </>
               )}
             </div>
@@ -131,3 +131,4 @@ export default function SiteHeader() {
     </header>
   );
 }
+

@@ -7,7 +7,7 @@ import { Check, Glyph } from "@/components/Icons";
 import FormNotice from "@/components/FormNotice";
 import { ACCOUNT_BUTTON, ACCOUNT_FIELD, friendlyAccountError, isPlanId } from "@/lib/account";
 import { getSupabaseBrowserClient } from "@/lib/supabase";
-import { PLAN_BY_ID, PLANS, formatPrice, type PlanId } from "@/lib/pricing";
+import { PLAN_BY_ID, PLANS, type PlanId } from "@/lib/pricing";
 
 export function SignupView({ planId }: { planId: PlanId }) {
   const router = useRouter();
@@ -62,10 +62,10 @@ export function SignupView({ planId }: { planId: PlanId }) {
     <section className="border-b border-line py-16 md:py-24">
       <div className="shell grid max-w-4xl gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
         <div>
-          <span className="eyebrow">Create your account</span>
-          <h1 className="mt-4 text-[34px] leading-[1.06] sm:text-[40px]">Start where you are.</h1>
+          <span className="eyebrow">Private early access</span>
+          <h1 className="mt-4 text-[34px] leading-[1.06] sm:text-[40px]">Choose what matters most.</h1>
           <p className="mt-5 text-[16px] leading-relaxed text-muted">
-            Choose the service that matches your current job-search stage, then activate your promotional access. No card or payment information is required.
+            Choose the pilot track that matches your current job-search stage, then use the promo code you received. No card or payment information is required.
           </p>
 
           <div className="card mt-8 p-6">
@@ -74,12 +74,10 @@ export function SignupView({ planId }: { planId: PlanId }) {
                 <Glyph name={plan.id} className="h-5 w-5" />
               </span>
               <div>
-                <p className="text-[11px] font-bold tracking-[0.1em] uppercase text-faint">Selected service</p>
+                <p className="text-[11px] font-bold tracking-[0.1em] uppercase text-faint">Selected pilot track</p>
                 <p className="font-display text-[16px] font-extrabold text-ink">
                   {plan.name}
-                  <span className="ml-2 font-sans text-[13.5px] font-medium text-brand-dark">
-                    {plan.priceMonthly === 0 ? "Starter" : `$${formatPrice(plan.priceMonthly)}/mo value`}
-                  </span>
+                  <span className="ml-2 font-sans text-[13.5px] font-medium text-brand-dark">No charge</span>
                 </p>
               </div>
             </div>
@@ -103,9 +101,9 @@ export function SignupView({ planId }: { planId: PlanId }) {
             <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-light text-brand-deep">
               <Check className="h-6 w-6" />
             </span>
-            <h2 className="mt-5 text-[24px]">Check your inbox.</h2>
+            <h2 className="mt-5 text-[24px]">Your request was received.</h2>
             <p className="mt-3 text-[14.5px] leading-relaxed text-muted">
-              We sent a verification link to <strong className="text-ink">{registeredEmail}</strong>. Open it to activate your {plan.name} access and enter your dashboard.
+              Your account request for <strong className="text-ink">{registeredEmail}</strong> was created. If you cannot enter the dashboard, use the contact form and include this email address.
             </p>
             <Link href="/login" className="mt-6 inline-flex font-semibold text-brand-dark underline underline-offset-4">Go to sign in</Link>
           </div>
@@ -141,11 +139,11 @@ export function SignupView({ planId }: { planId: PlanId }) {
             </label>
 
             <button type="submit" disabled={submitting} className={ACCOUNT_BUTTON}>
-              {submitting ? "Creating your account…" : "Activate promo access"}
+              {submitting ? "Creating your account…" : "Join the pilot"}
             </button>
 
             <ul className="space-y-2 pt-1">
-              {["No credit card required", "Instant account access", "Your selected service is saved"].map((text) => (
+              {["No credit card required", "Instant pilot dashboard", "Your selected track is saved", "Roadmap tools roll out gradually"].map((text) => (
                 <li key={text} className="flex items-center gap-2 text-[13px] text-muted">
                   <span className="text-brand"><Check className="h-3.5 w-3.5" /></span>
                   {text}
@@ -171,3 +169,4 @@ export default function SignupContent() {
 
   return <SignupView planId={planId} />;
 }
+

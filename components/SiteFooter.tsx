@@ -14,11 +14,11 @@ export default function SiteFooter() {
           </p>
           <NewsletterForm />
           <p className="mt-3 text-[12.5px] text-faint">
-            By subscribing you agree to our{" "}
+            Occasional pilot updates. Unsubscribe anytime. See our{" "}
             <Link href="/privacy" className="text-brand-dark underline underline-offset-2">
               Privacy Policy
             </Link>
-            .
+            {" "}for details.
           </p>
         </div>
 
@@ -52,10 +52,11 @@ export default function SiteFooter() {
             href="/contact?topic=institutions"
             className="inline-flex items-center gap-1.5 font-medium text-brand-dark hover:gap-2.5 transition-all"
           >
-            Universities &amp; teams — talk to us <Arrow className="h-3.5 w-3.5" />
+            Explore an institutional pilot <Arrow className="h-3.5 w-3.5" />
           </Link>
         </div>
       </div>
     </footer>
   );
 }
+

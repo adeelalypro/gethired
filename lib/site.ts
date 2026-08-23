@@ -4,18 +4,18 @@
 export const SITE = {
   name: "GetHired",
   domain: "gethired.info",
-  tagline: "Practice getting hired",
+  tagline: "Practice before it counts",
   description:
-    "Build real experience, write resumes that survive the screening, and sit through the interviews — all before the job you actually want is on the line.",
+    "Join the private GetHired pilot and help shape practical tools for resumes, interviews, career changes, and portfolio-building.",
   /** Short form for tight spaces like the footer. */
-  short: "Practice everything that stands between you and the offer.",
+  short: "A private early-access pilot for people who want to practise the job search before the real opportunity is on the line.",
 } as const;
 
 export const NAV = [
   { label: "Home", href: "/" },
   { label: "How It Works", href: "/#how-it-works" },
-  { label: "Who It's For", href: "/#personas" },
-  { label: "Pricing", href: "/pricing" },
+  { label: "Tracks", href: "/#personas" },
+  { label: "Early Access", href: "/pricing" },
   { label: "FAQs", href: "/#faq" },
   { label: "Contact", href: "/contact" },
 ] as const;
@@ -26,8 +26,8 @@ export const FOOTER_NAV = [
     links: [
       { label: "Home", href: "/" },
       { label: "How It Works", href: "/#how-it-works" },
-      { label: "Who It's For", href: "/#personas" },
-      { label: "Pricing", href: "/pricing" },
+      { label: "Tracks", href: "/#personas" },
+      { label: "Early Access", href: "/pricing" },
       { label: "FAQs", href: "/#faq" },
     ],
   },
@@ -46,7 +46,9 @@ export const FOOTER_NAV = [
       { label: "Sign Up", href: "/signup" },
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Terms & Conditions", href: "/terms" },
-      { label: "Refund Policy", href: "/refund" },
+      { label: "Payments & Refunds", href: "/refund" },
+      { label: "Unsubscribe", href: "/unsubscribe" },
     ],
   },
 ] as const;
+
