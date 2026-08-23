@@ -24,15 +24,16 @@ export default function Features() {
   }, [paused]);
 
   return (
-    <section id="roadmap" className="border-b border-line py-20 md:py-28">
+    <section id="features" className="border-b border-line py-20 md:py-28">
       <div className="shell">
         <div className="max-w-2xl">
-          <span className="eyebrow">Product roadmap</span>
+          <span className="eyebrow">Core features</span>
           <h2 className="mt-4 text-[34px] leading-[1.08] sm:text-[42px]">
-            What we&rsquo;re researching and building.
+            Six tools. One hiring journey.
           </h2>
           <p className="mt-5 text-[17px] leading-relaxed text-muted">
-            These are product directions, not a list of finished services. Status labels show the current stage honestly.
+            From working out where you stand to sitting the final round. Pick
+            any one to see what it does.
           </p>
         </div>
 
@@ -90,7 +91,7 @@ export default function Features() {
           className="rise mt-10 grid gap-10 rounded-[20px] border border-line bg-surface p-7 md:grid-cols-[1.1fr_1fr] md:gap-14 md:p-11"
         >
           <div>
-            <div className="flex flex-wrap items-center gap-3"><span className="eyebrow">{feature.kicker}</span><span className="rounded-full bg-white px-2.5 py-1 text-[10.5px] font-bold uppercase tracking-wide text-brand-deep ring-1 ring-brand-mid">{feature.status}</span></div>
+            <span className="eyebrow">{feature.kicker}</span>
             <h3 className="mt-3.5 text-[26px] leading-tight sm:text-[31px]">
               {feature.headline}
             </h3>
@@ -117,4 +118,3 @@ export default function Features() {
     </section>
   );
 }
-

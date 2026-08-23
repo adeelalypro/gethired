@@ -22,7 +22,7 @@ export default function NewsletterForm() {
       setMessage(friendlyAccountError(error.message));
     } else {
       form.reset();
-      setMessage("You’re on the pilot update list.");
+      setMessage("You’re on the product update list.");
     }
     setSubmitting(false);
   }
@@ -35,7 +35,7 @@ export default function NewsletterForm() {
           name="email"
           required
           maxLength={254}
-          placeholder="Email for pilot updates"
+          placeholder="Email for product updates"
           aria-label="Email address"
           className="min-w-0 flex-1 bg-transparent text-[14px] text-ink outline-none placeholder:text-faint"
         />
@@ -51,4 +51,3 @@ export default function NewsletterForm() {
     </>
   );
 }
-

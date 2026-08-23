@@ -3,7 +3,7 @@ import ContactForm from "@/components/ContactForm";
 import PageHeader from "@/components/PageHeader";
 import { Suspense } from "react";
 
-export const metadata: Metadata = { title: "Contact", alternates: { canonical: "/contact/" }, description: "Contact GetHired for pilot support, product feedback, privacy questions, or institutional pilots." };
+export const metadata: Metadata = { title: "Contact", alternates: { canonical: "/contact/" }, description: "Contact GetHired for account support, product feedback, privacy questions, or institutional access." };
 
 export default function ContactPage() {
   return (
@@ -11,7 +11,7 @@ export default function ContactPage() {
       <PageHeader
         eyebrow="Contact"
         title="Talk to us."
-        lede="Account help, pilot feedback, or a conversation about an institutional pilot."
+        lede="Account help, product feedback, or a conversation about bringing GetHired to your institution."
       />
 
       <section className="border-b border-line py-20 md:py-24">
@@ -20,13 +20,13 @@ export default function ContactPage() {
             <div>
               <h2 className="text-[18px]">Universities &amp; institutions</h2>
               <p className="mt-2.5 text-[15px] leading-relaxed text-muted">
-                We are exploring pilots with universities, colleges, workforce programmes, and teams. Tell us about your audience, goals, and approximate cohort size; we will reply using the email you provide.
+                Bring structured career preparation to students, graduates, or programme participants. Tell us about your audience, goals, and approximate cohort size; we will reply using the email you provide.
               </p>
             </div>
             <div>
-              <h2 className="text-[18px]">Account &amp; pilot support</h2>
+              <h2 className="text-[18px]">Account &amp; product support</h2>
               <p className="mt-2.5 text-[15px] leading-relaxed text-muted">
-                The current pilot does not collect payment details. Use this form for sign-in help, promo-code questions, privacy requests, product feedback, or anything that is unclear.
+                Use this form for sign-in help, promo-code questions, privacy requests, product feedback, or anything that is unclear. Promotional access does not require payment details.
               </p>
             </div>
             <div className="rounded-2xl border border-brand-mid bg-brand-light p-5"><p className="text-[13.5px] font-semibold text-brand-deep">Your message is saved to the private admin inbox so the GetHired team can follow up.</p></div>
@@ -38,4 +38,3 @@ export default function ContactPage() {
     </>
   );
 }
-

@@ -4,15 +4,19 @@ import CtaBand from "@/components/CtaBand";
 import { SITE } from "@/lib/site";
 import { MODULES } from "@/lib/pricing";
 
-export const metadata: Metadata = { title: "About", alternates: { canonical: "/about/" }, description: "Why GetHired is starting as a transparent early-access pilot for job-search practice." };
+export const metadata: Metadata = {
+  title: "About",
+  description: "Why GetHired exists: to help people practise the work, applications, and interviews that stand between them and the offer.",
+  alternates: { canonical: "/about/" },
+};
 
 export default function AboutPage() {
   return (
     <>
       <PageHeader
         eyebrow="About"
-        title="The job search deserves a place to practise."
-        lede={`${SITE.name} is starting as a focused pilot: learn what people need most, build carefully, and never pretend a roadmap is already a finished product.`}
+        title="Nobody gets to rehearse the thing that decides their career."
+        lede={`That is the gap ${SITE.name} exists to close.`}
       />
 
       <section className="border-b border-line py-20 md:py-24">
@@ -31,15 +35,19 @@ export default function AboutPage() {
               trying to get it.
             </p>
             <p className="font-medium text-ink">
-              The long-term idea is a place to rehearse the difficult parts: realistic workplace tasks, job-specific application support, career-change positioning, and interview practice.
+              So we built somewhere to do all of it first. Real workplace tasks
+              that become portfolio proof. Resumes written for the posting in
+              front of you. Mock interviews you can get badly wrong at no cost.
+              A full hiring process you can run end to end and find out exactly
+              where you would have been cut.
             </p>
             <p>
-              Today, {SITE.name} is a private early-access pilot. The working service provides promo-code signup, secure accounts, track selection, a status dashboard, and a direct feedback channel. The product capabilities listed here are being researched and built in stages.
+              Practice everything that matters, before any of it counts.
             </p>
           </div>
 
-          <div className="card p-8 shadow-sm">
-            <div className="flex items-center justify-between gap-4"><h2 className="text-[19px]">What we&rsquo;re building toward</h2><span className="rounded-full bg-brand-light px-3 py-1 text-[10.5px] font-bold uppercase tracking-wide text-brand-deep ring-1 ring-brand-mid">Roadmap</span></div>
+          <div className="card p-8">
+            <h2 className="text-[19px]">What&rsquo;s in the platform</h2>
             <ul className="mt-6 space-y-5">
               {MODULES.map((m) => (
                 <li key={m.id}>
@@ -54,18 +62,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-b border-line bg-surface py-16 md:py-20">
-        <div className="shell grid gap-5 md:grid-cols-3">
-          {[
-            ["Be clear", "Say what works today, what is being researched, and what remains a concept."],
-            ["Protect trust", "Keep accounts private, collect only useful pilot data, and give people control over deletion."],
-            ["Build from evidence", "Use track demand and direct feedback to decide which experience deserves investment first."],
-          ].map(([title, body]) => <div key={title} className="card p-6"><h2 className="text-[18px]">{title}</h2><p className="mt-2 text-[14px] leading-relaxed text-muted">{body}</p></div>)}
-        </div>
-      </section>
-
       <CtaBand />
     </>
   );
 }
-

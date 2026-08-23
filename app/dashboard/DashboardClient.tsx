@@ -113,7 +113,7 @@ export default function DashboardClient() {
     if (activityError) setError(friendlyAccountError(activityError.message));
     else {
       setInterestConfirmed(true);
-      setNotice(`${plan?.name || "Your"} pilot interest is confirmed.`);
+      setNotice(`${plan?.name || "Your"} service selection is confirmed.`);
     }
     setStarting(false);
   }
@@ -169,9 +169,9 @@ export default function DashboardClient() {
       <div className="shell max-w-6xl">
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <span className="eyebrow">Your early-access dashboard</span>
+            <span className="eyebrow">Your dashboard</span>
             <h1 className="mt-3 text-[32px] leading-tight md:text-[40px]">Welcome, {profile.full_name.split(" ")[0]}.</h1>
-            <p className="mt-3 text-[15px] text-muted">Your pilot access is active and your selected research track has been recorded.</p>
+            <p className="mt-3 text-[15px] text-muted">Your promotional access is active and your selected service has been recorded.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             {profile.role === "admin" && <Link href="/admin" className="rounded-full border border-brand-mid bg-brand-light px-4 py-2.5 text-[13.5px] font-semibold text-brand-deep">Analytics</Link>}
@@ -187,7 +187,7 @@ export default function DashboardClient() {
                   <div className="flex items-center gap-4">
                     <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-light text-brand-deep"><Glyph name={plan.id} className="h-6 w-6" /></span>
                     <div>
-                      <p className="text-[11px] font-bold tracking-[0.12em] uppercase text-faint">Selected pilot track</p>
+                      <p className="text-[11px] font-bold tracking-[0.12em] uppercase text-faint">Selected service</p>
                       <h2 className="mt-1 text-[22px]">{plan.name}</h2>
                     </div>
                   </div>
@@ -201,7 +201,7 @@ export default function DashboardClient() {
                 {MODULES.map((module) => (
                   <div key={module.id} className="bg-white p-5">
                     <p className="text-[12px] font-semibold text-muted">{module.name}</p>
-                    <p className="mt-1 text-[14px] font-semibold text-ink">{plan.meters[module.id] || "Later roadmap"}</p>
+                    <p className="mt-1 text-[14px] font-semibold text-ink">{plan.meters[module.id] || "Not included"}</p>
                   </div>
                 ))}
               </div>
@@ -210,8 +210,8 @@ export default function DashboardClient() {
             <div className="card p-6 md:p-8">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="eyebrow">Pilot status</p>
-                  <h2 className="mt-2 text-[22px]">Confirm your interest.</h2>
+                  <p className="eyebrow">Getting started</p>
+                  <h2 className="mt-2 text-[22px]">Confirm your service.</h2>
                 </div>
                 <span className="text-[13px] font-semibold text-brand-dark">{interestConfirmed ? "3 of 3" : "2 of 3"}</span>
               </div>
@@ -221,15 +221,15 @@ export default function DashboardClient() {
                 <li className="flex items-center gap-3"><Check className="h-4 w-4 text-brand" /><span>Promo access activated</span></li>
                 <li className="flex items-center gap-3">
                   <span className={`flex h-4 w-4 items-center justify-center rounded-full border ${interestConfirmed ? "border-brand bg-brand text-white" : "border-brand"}`}>{interestConfirmed && <Check className="h-3 w-3" />}</span>
-                  <span>{interestConfirmed ? `${plan.name} interest confirmed` : `Confirm interest in ${plan.name}`}</span>
+                  <span>{interestConfirmed ? `${plan.name} service confirmed` : `Confirm ${plan.name} as my service`}</span>
                 </li>
               </ol>
               {!interestConfirmed && (
                 <button onClick={handleConfirmInterest} disabled={starting} className="mt-6 rounded-full bg-brand-deep px-5 py-3 text-[14px] font-semibold text-white hover:bg-brand-dark disabled:opacity-60">
-                  {starting ? "Saving…" : "Confirm my interest"}
+                  {starting ? "Saving…" : "Confirm my service"}
                 </button>
               )}
-              {interestConfirmed && <p className="mt-5 rounded-xl bg-brand-light px-4 py-3 text-[13.5px] text-brand-deep">Your interest is recorded. This helps the GetHired team measure demand for {plan.name}; it does not mean every roadmap feature is live yet.</p>}
+              {interestConfirmed && <p className="mt-5 rounded-xl bg-brand-light px-4 py-3 text-[13.5px] text-brand-deep">Your {plan.name} selection is confirmed. The GetHired team can now identify the service you joined for and follow up with relevant access information.</p>}
             </div>
           </div>
 
@@ -263,7 +263,7 @@ export default function DashboardClient() {
               <p className="eyebrow">Access record</p>
               <dl className="mt-4 space-y-4 text-[13.5px]">
                 <div className="flex items-start justify-between gap-4"><dt className="text-muted">Campaign</dt><dd className="text-right font-semibold text-ink">{redemption?.promo_label || "Promotional access"}</dd></div>
-                <div className="flex items-start justify-between gap-4"><dt className="text-muted">Track</dt><dd className="text-right font-semibold text-ink">{plan.name}</dd></div>
+                <div className="flex items-start justify-between gap-4"><dt className="text-muted">Service</dt><dd className="text-right font-semibold text-ink">{plan.name}</dd></div>
                 <div className="flex items-start justify-between gap-4"><dt className="text-muted">Joined</dt><dd className="text-right font-semibold text-ink">{new Date(profile.created_at).toLocaleDateString()}</dd></div>
                 <div className="flex items-start justify-between gap-4"><dt className="text-muted">Payment method</dt><dd className="text-right font-semibold text-brand-dark">Not required</dd></div>
               </dl>
@@ -272,7 +272,7 @@ export default function DashboardClient() {
             <div className="rounded-card bg-brand-deep p-6 text-white">
               <p className="text-[11px] font-bold tracking-[0.13em] uppercase text-brand-mid">Need help?</p>
               <h2 className="mt-2 text-[20px] text-white">Talk to the team.</h2>
-              <p className="mt-2 text-[13.5px] leading-relaxed text-white/70">Questions about your account, pilot track, or privacy are saved directly for follow-up.</p>
+              <p className="mt-2 text-[13.5px] leading-relaxed text-white/70">Questions about your account, selected service, or privacy are saved directly for follow-up.</p>
               <Link href="/contact" className="mt-5 inline-flex rounded-full bg-white px-4 py-2.5 text-[13px] font-semibold text-brand-deep">Contact support</Link>
             </div>
 
@@ -289,4 +289,3 @@ export default function DashboardClient() {
     </section>
   );
 }
-

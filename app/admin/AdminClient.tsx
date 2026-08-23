@@ -200,7 +200,7 @@ export default function AdminClient() {
   const metricCards = [
     ["Total signups", data.total_signups],
     ["Active accounts", data.verified_signups],
-    ["Interest confirmed", data.active_users],
+    ["Service confirmed", data.active_users],
     ["Contact messages", data.contact_messages],
     ["Newsletter", data.newsletter_subscribers],
   ] as const;
@@ -210,9 +210,9 @@ export default function AdminClient() {
       <div className="shell max-w-7xl">
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <span className="eyebrow">Pilot operations</span>
+            <span className="eyebrow">Service operations</span>
             <h1 className="mt-3 text-[32px] md:text-[40px]">Demand, campaigns, and follow-up.</h1>
-            <p className="mt-3 text-[15px] text-muted">See which tracks attract users, who confirmed interest, and which messages need a response.</p>
+            <p className="mt-3 text-[15px] text-muted">See which services attract users, who confirmed their selection, and which messages need a response.</p>
           </div>
           <div className="flex gap-2">
             <button onClick={loadDashboard} className="rounded-full border border-line bg-white px-4 py-2.5 text-[13.5px] font-semibold text-ink">Refresh</button>
@@ -233,7 +233,7 @@ export default function AdminClient() {
 
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
           <div className="card p-6 md:p-7">
-            <h2 className="text-[21px]">Signups by track</h2>
+            <h2 className="text-[21px]">Signups by service</h2>
             <div className="mt-6 space-y-5">
               {data.by_service.length === 0 && <p className="text-[14px] text-muted">No signups yet.</p>}
               {data.by_service.map((item) => {
@@ -274,7 +274,7 @@ export default function AdminClient() {
               <label className="block"><span className="mb-2 block text-[12.5px] font-semibold text-ink">Campaign label</span><input className={ACCOUNT_FIELD} name="label" placeholder="September campus event" required /></label>
               <label className="block"><span className="mb-2 block text-[12.5px] font-semibold text-ink">Promo code</span><input className={`${ACCOUNT_FIELD} uppercase`} name="code" placeholder="CAMPUS-SEP26" minLength={6} maxLength={80} required /></label>
               <div className="grid gap-4 sm:grid-cols-2">
-                <label className="block"><span className="mb-2 block text-[12.5px] font-semibold text-ink">Allowed track</span><select className={ACCOUNT_FIELD} name="service" defaultValue="all"><option value="all">All tracks</option>{PLANS.map((plan) => <option key={plan.id} value={plan.id}>{plan.name}</option>)}</select></label>
+                <label className="block"><span className="mb-2 block text-[12.5px] font-semibold text-ink">Allowed service</span><select className={ACCOUNT_FIELD} name="service" defaultValue="all"><option value="all">All services</option>{PLANS.map((plan) => <option key={plan.id} value={plan.id}>{plan.name}</option>)}</select></label>
                 <label className="block"><span className="mb-2 block text-[12.5px] font-semibold text-ink">Maximum uses</span><input className={ACCOUNT_FIELD} name="max_uses" type="number" min={1} placeholder="Unlimited" /></label>
               </div>
               <label className="block"><span className="mb-2 block text-[12.5px] font-semibold text-ink">Expiry date</span><input className={ACCOUNT_FIELD} name="expires_at" type="date" /></label>
@@ -301,18 +301,18 @@ export default function AdminClient() {
         <div className="card mt-6 overflow-hidden">
           <div className="border-b border-line p-6 md:p-7">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-              <div><h2 className="text-[21px]">Recent signups</h2><p className="mt-2 text-[13.5px] text-muted">Filter the newest 100 accounts by track, campaign, or join date.</p></div>
-              <button onClick={() => downloadCsv("gethired-signups.csv", ["Name", "Email", "Track", "Campaign", "Interest confirmed", "Joined"], filteredSignups.map((signup) => [signup.name, signup.email, signup.service, signup.promo, signup.interest_confirmed ? "Yes" : "No", signup.created_at]))} className="rounded-full border border-line bg-white px-4 py-2.5 text-[12.5px] font-semibold text-ink hover:border-brand-mid">Export filtered CSV</button>
+              <div><h2 className="text-[21px]">Recent signups</h2><p className="mt-2 text-[13.5px] text-muted">Filter the newest 100 accounts by service, campaign, or join date.</p></div>
+              <button onClick={() => downloadCsv("gethired-signups.csv", ["Name", "Email", "Service", "Campaign", "Selection confirmed", "Joined"], filteredSignups.map((signup) => [signup.name, signup.email, signup.service, signup.promo, signup.interest_confirmed ? "Yes" : "No", signup.created_at]))} className="rounded-full border border-line bg-white px-4 py-2.5 text-[12.5px] font-semibold text-ink hover:border-brand-mid">Export filtered CSV</button>
             </div>
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              <label><span className="mb-1.5 block text-[11.5px] font-semibold text-muted">Track</span><select className={ACCOUNT_FIELD} value={serviceFilter} onChange={(event) => setServiceFilter(event.target.value)}><option value="all">All tracks</option>{PLANS.map((plan) => <option key={plan.id} value={plan.id}>{plan.name}</option>)}</select></label>
+              <label><span className="mb-1.5 block text-[11.5px] font-semibold text-muted">Service</span><select className={ACCOUNT_FIELD} value={serviceFilter} onChange={(event) => setServiceFilter(event.target.value)}><option value="all">All services</option>{PLANS.map((plan) => <option key={plan.id} value={plan.id}>{plan.name}</option>)}</select></label>
               <label><span className="mb-1.5 block text-[11.5px] font-semibold text-muted">Campaign</span><select className={ACCOUNT_FIELD} value={campaignFilter} onChange={(event) => setCampaignFilter(event.target.value)}><option value="all">All campaigns</option>{data.by_promo.map((promo) => <option key={promo.id} value={promo.label}>{promo.label}</option>)}</select></label>
               <label><span className="mb-1.5 block text-[11.5px] font-semibold text-muted">Joined on or after</span><input className={ACCOUNT_FIELD} type="date" value={dateFilter} onChange={(event) => setDateFilter(event.target.value)} /></label>
             </div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[800px] text-left text-[13px]">
-              <thead className="bg-surface text-muted"><tr><th className="px-5 py-3 font-semibold">User</th><th className="px-5 py-3 font-semibold">Track</th><th className="px-5 py-3 font-semibold">Promo</th><th className="px-5 py-3 font-semibold">Account</th><th className="px-5 py-3 font-semibold">Interest</th><th className="px-5 py-3 font-semibold">Joined</th></tr></thead>
+              <thead className="bg-surface text-muted"><tr><th className="px-5 py-3 font-semibold">User</th><th className="px-5 py-3 font-semibold">Service</th><th className="px-5 py-3 font-semibold">Promo</th><th className="px-5 py-3 font-semibold">Account</th><th className="px-5 py-3 font-semibold">Selection</th><th className="px-5 py-3 font-semibold">Joined</th></tr></thead>
               <tbody className="divide-y divide-line bg-white">
                 {filteredSignups.map((signup) => (
                   <tr key={signup.id}>
@@ -346,7 +346,7 @@ export default function AdminClient() {
           </div>
 
           <div className="card h-fit overflow-hidden">
-            <div className="border-b border-line p-6"><h2 className="text-[21px]">Pilot update list</h2><p className="mt-2 text-[13.5px] text-muted">Active subscribers only are included in exports.</p><button onClick={() => downloadCsv("gethired-subscribers.csv", ["Email", "Source", "Subscribed"], data.subscribers.filter((subscriber) => subscriber.active).map((subscriber) => [subscriber.email, subscriber.source, subscriber.subscribed_at]))} className="mt-4 rounded-full border border-line px-4 py-2 text-[12px] font-semibold text-ink hover:border-brand-mid">Export active CSV</button></div>
+            <div className="border-b border-line p-6"><h2 className="text-[21px]">Product update list</h2><p className="mt-2 text-[13.5px] text-muted">Active subscribers only are included in exports.</p><button onClick={() => downloadCsv("gethired-subscribers.csv", ["Email", "Source", "Subscribed"], data.subscribers.filter((subscriber) => subscriber.active).map((subscriber) => [subscriber.email, subscriber.source, subscriber.subscribed_at]))} className="mt-4 rounded-full border border-line px-4 py-2 text-[12px] font-semibold text-ink hover:border-brand-mid">Export active CSV</button></div>
             <div className="max-h-[520px] divide-y divide-line overflow-y-auto">
               {data.subscribers.map((subscriber) => <div key={subscriber.id} className="p-4"><p className="break-all text-[13px] font-semibold text-ink">{subscriber.email}</p><p className="mt-1 text-[11.5px] text-faint">{subscriber.active ? "Active" : "Unsubscribed"} · {subscriber.source} · {new Date(subscriber.subscribed_at).toLocaleDateString()}</p></div>)}
               {!data.subscribers.length && <p className="p-6 text-[14px] text-muted">No subscribers yet.</p>}
@@ -357,4 +357,3 @@ export default function AdminClient() {
     </section>
   );
 }
-

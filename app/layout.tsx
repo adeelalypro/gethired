@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   description: SITE.description,
   applicationName: SITE.name,
-  keywords: ["job search practice", "interview practice", "resume support", "career change", "early access"],
+  keywords: ["job search practice", "interview practice", "resume support", "career change", "career platform"],
   openGraph: {
     title: `${SITE.name} — ${SITE.tagline}`,
     description: SITE.description,
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://gethired.info",
     locale: "en_CA",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "GetHired private early access" }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "GetHired — practice everything that stands between you and the offer" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -48,7 +48,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body className={`${inter.variable} ${jakarta.variable}`}>
         <script
           type="application/ld+json"
@@ -75,4 +75,3 @@ export default function RootLayout({
     </html>
   );
 }
-

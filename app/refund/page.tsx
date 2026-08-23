@@ -7,19 +7,19 @@ export default function Page() {
   return (
     <LegalPage
       title="Payments & Refunds"
-      lede="The current pilot is free to access with a promo code and does not collect payment details."
+      lede="How complimentary promotional access works and what will apply when paid checkout becomes available."
       sections={[
         {
-          heading: "No charges during early access",
-          body: "GetHired does not currently sell subscriptions, packs, credits, or one-time services. We do not ask for a credit card during signup, and joining the pilot does not create a payment obligation.",
+          heading: "Complimentary promotional access",
+          body: "Users joining with a valid promo code are not asked for a credit card and are not charged at signup. Promotional access does not create a payment obligation.",
         },
         {
           heading: "Promo codes are access codes",
-          body: "A promo code grants access to the controlled pilot. It is not a discount applied to a purchase and has no cash value. Codes may be limited by campaign, audience, service track, number of uses, or expiry date.",
+          body: "A promo code grants complimentary access and is not a payment method. It has no cash value and may be limited by campaign, audience, selected service, number of uses, or expiry date.",
         },
         {
-          heading: "If paid services launch later",
-          body: "Before any paid service is introduced, GetHired will display the price, billing frequency, cancellation rules, and applicable refund terms before payment is requested. Those future terms will not be applied retroactively to the free pilot.",
+          heading: "Paid checkout",
+          body: "Before accepting payment, GetHired will display the price, billing frequency, cancellation rules, and applicable refund terms before payment is requested. Paid terms will not be applied retroactively to complimentary promotional access.",
         },
         {
           heading: "Unexpected payment concern",
@@ -29,4 +29,3 @@ export default function Page() {
     />
   );
 }
-

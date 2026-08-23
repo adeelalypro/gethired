@@ -18,10 +18,10 @@ const svg = `
   </g>
   <rect x="116" y="202" width="300" height="39" rx="19.5" fill="#E7F7F0" stroke="#B9E8D3"/>
   <circle cx="139" cy="221.5" r="5" fill="#0F9D63"/>
-  <text x="154" y="228" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" fill="#064E33">PRIVATE EARLY ACCESS · NO CARD</text>
-  <text x="116" y="304" font-family="Segoe UI, Arial, sans-serif" font-size="52" font-weight="800" fill="#0A1A2B">Practise before</text>
-  <text x="116" y="366" font-family="Segoe UI, Arial, sans-serif" font-size="52" font-weight="800" fill="#064E33">the opportunity counts.</text>
-  <text x="116" y="415" font-family="Segoe UI, Arial, sans-serif" font-size="22" fill="#5C7086">Choose your priority and help shape practical job-search tools.</text>
+  <text x="154" y="228" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" fill="#064E33">PRACTICE GETTING HIRED</text>
+  <text x="116" y="304" font-family="Segoe UI, Arial, sans-serif" font-size="52" font-weight="800" fill="#0A1A2B">Practice everything.</text>
+  <text x="116" y="366" font-family="Segoe UI, Arial, sans-serif" font-size="52" font-weight="800" fill="#064E33">Then go get hired.</text>
+  <text x="116" y="415" font-family="Segoe UI, Arial, sans-serif" font-size="22" fill="#5C7086">Build experience, tailor applications, and rehearse every interview.</text>
   <g font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">
     <rect x="116" y="459" width="112" height="42" rx="21" fill="#064E33"/><text x="151" y="486" fill="#FFFFFF">BUILD</text>
     <rect x="240" y="459" width="112" height="42" rx="21" fill="#F3F7F5" stroke="#D8E2E8"/><text x="276" y="486" fill="#24384C">APPLY</text>
@@ -32,4 +32,3 @@ const svg = `
 </svg>`;
 
 await sharp(Buffer.from(svg)).png({ quality: 92 }).toFile(fileURLToPath(new URL("../public/og.png", import.meta.url)));
-

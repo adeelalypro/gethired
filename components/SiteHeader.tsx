@@ -67,7 +67,7 @@ export default function SiteHeader() {
           ) : (
             <>
               <Link href="/login" className="rounded-full border border-line px-4 py-2 text-[14px] font-semibold text-ink transition-colors hover:border-brand-mid hover:bg-brand-light">Sign In</Link>
-              <Link href="/signup" className="rounded-full bg-brand-deep px-4.5 py-2 text-[14px] font-semibold text-white transition-colors hover:bg-brand-dark">Join Early Access</Link>
+              <Link href="/signup" className="rounded-full bg-brand-deep px-4.5 py-2 text-[14px] font-semibold text-white transition-colors hover:bg-brand-dark">Start Free</Link>
             </>
           )}
         </div>
@@ -121,7 +121,7 @@ export default function SiteHeader() {
               ) : (
                 <>
                   <Link href="/login" onClick={() => setOpen(false)} className="flex-1 rounded-full border border-line px-4 py-2.5 text-center text-[14px] font-semibold text-ink">Sign In</Link>
-                  <Link href="/signup" onClick={() => setOpen(false)} className="flex-1 rounded-full bg-brand-deep px-4 py-2.5 text-center text-[14px] font-semibold text-white">Join Early Access</Link>
+                  <Link href="/signup" onClick={() => setOpen(false)} className="flex-1 rounded-full bg-brand-deep px-4 py-2.5 text-center text-[14px] font-semibold text-white">Start Free</Link>
                 </>
               )}
             </div>
@@ -131,4 +131,3 @@ export default function SiteHeader() {
     </header>
   );
 }
-

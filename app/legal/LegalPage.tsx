@@ -18,7 +18,7 @@ export default function LegalPage({
       />
       <section className="border-b border-line py-16 md:py-20">
         <div className="shell max-w-3xl space-y-9">
-          <p className="text-[13px] font-medium text-faint">Current for the private GetHired early-access pilot · Last updated August 23, 2026</p>
+          <p className="text-[13px] font-medium text-faint">Current for the GetHired service · Last updated August 23, 2026</p>
           {sections.map((s) => (
             <div key={s.heading}>
               <h2 className="text-[19px]">{s.heading}</h2>
@@ -30,4 +30,3 @@ export default function LegalPage({
     </>
   );
 }
-

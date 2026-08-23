@@ -14,7 +14,7 @@ export default function SiteFooter() {
           </p>
           <NewsletterForm />
           <p className="mt-3 text-[12.5px] text-faint">
-            Occasional pilot updates. Unsubscribe anytime. See our{" "}
+            Occasional product updates. Unsubscribe anytime. See our{" "}
             <Link href="/privacy" className="text-brand-dark underline underline-offset-2">
               Privacy Policy
             </Link>
@@ -52,11 +52,10 @@ export default function SiteFooter() {
             href="/contact?topic=institutions"
             className="inline-flex items-center gap-1.5 font-medium text-brand-dark hover:gap-2.5 transition-all"
           >
-            Explore an institutional pilot <Arrow className="h-3.5 w-3.5" />
+            GetHired for institutions <Arrow className="h-3.5 w-3.5" />
           </Link>
         </div>
       </div>
     </footer>
   );
 }
-

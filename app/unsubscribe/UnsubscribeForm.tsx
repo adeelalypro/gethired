@@ -26,9 +26,8 @@ export default function UnsubscribeForm() {
     <form onSubmit={handleSubmit} className="card mt-8 space-y-4 p-7">
       <label className="block"><span className="mb-2 block text-[13px] font-semibold text-ink">Email address</span><input className={ACCOUNT_FIELD} name="email" type="email" autoComplete="email" placeholder="you@email.com" required /></label>
       {error && <FormNotice tone="error">{error}</FormNotice>}
-      {complete && <FormNotice tone="success">That email has been removed from active pilot updates.</FormNotice>}
+      {complete && <FormNotice tone="success">That email has been removed from active product updates.</FormNotice>}
       <button type="submit" className={ACCOUNT_BUTTON} disabled={submitting}>{submitting ? "Updating…" : "Unsubscribe"}</button>
     </form>
   );
 }
-
